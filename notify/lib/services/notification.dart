@@ -18,9 +18,29 @@ class notificationservices {
       required FlutterLocalNotificationsPlugin fln}) async {
     AndroidNotificationDetails androidPlateformChannelSpecifies =
         AndroidNotificationDetails(
-      "notificationapp",
+      "notificationapp_01",
+      "notificationappch_01",
+      playSound: true,
+      sound: RawResourceAndroidNotificationSound("notification1"),
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    var not = NotificationDetails(android: androidPlateformChannelSpecifies);
+    await fln.show(0, title, body, not);
+  }
+
+  static Future createanddisplaynotification(
+      {var id = 0,
+      required String title,
+      required String body,
+      var payload,
+      required FlutterLocalNotificationsPlugin fln}) async {
+    AndroidNotificationDetails androidPlateformChannelSpecifies =
+        AndroidNotificationDetails(
+      "notificationapp1",
       "notificationappchannel",
       playSound: true,
+      sound: RawResourceAndroidNotificationSound("notification2"),
       importance: Importance.max,
       priority: Priority.high,
     );

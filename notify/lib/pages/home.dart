@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notify/services/notification.dart';
-
 import '../main.dart';
 
 class home extends StatefulWidget {
@@ -25,14 +24,26 @@ class _homeState extends State<home> {
         title: Text("NotificationApp"),
       ),
       body: Center(
-        child: ElevatedButton(
-            onPressed: () {
-              notificationservices.showBigTextNotification(
-                  title: "new message title",
-                  body: "your notification",
-                  fln: flutterLocalNotificationsPlugin);
-            },
-            child: Text('show Notification')),
+        child: Column(
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  notificationservices.showBigTextNotification(
+                      title: "new message title",
+                      body: "your notification",
+                      fln: flutterLocalNotificationsPlugin);
+                },
+                child: Text('show 1st Notification')),
+            ElevatedButton(
+                onPressed: () {
+                  notificationservices.createanddisplaynotification(
+                      title: "new message title",
+                      body: "your notification",
+                      fln: flutterLocalNotificationsPlugin);
+                },
+                child: Text('show 2nd Notification')),
+          ],
+        ),
       ),
     );
   }
