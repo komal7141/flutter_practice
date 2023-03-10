@@ -1,7 +1,9 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notify/services/notification.dart';
+
 import '../main.dart';
+import 'data.dart';
 
 class home extends StatefulWidget {
   const home({super.key});
@@ -15,6 +17,40 @@ class _homeState extends State<home> {
   void initState() {
     super.initState();
     notificationservices.initialize(flutterLocalNotificationsPlugin);
+    //when your app is closed and you get notification when you click on it,the app open from close state.
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      print("FirebaseMessaging.instance.getInitialMessage");
+      if (message != null) {
+        print("new notification");
+        if (message.data['_id'] != null) {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => data(
+                    id: message.data['_id'],
+                  )));
+        }
+      }
+    });
+    //when your app is opened
+    FirebaseMessaging.onMessage.listen(
+      (message) {
+        print("FirebaseMessaging.onMessage.listen");
+        if (message.notification != null) {
+          print(message.notification!.title);
+          print(message.notification!.body);
+          print("message.details ${message.data}");
+          notificationservices.createanddisplay(message);
+        }
+      },
+    );
+    //when your app is in background
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print("FirebaseMessaging.onMessage.listen");
+      if (message.notification != null) {
+        print(message.notification!.title);
+        print(message.notification!.body);
+        print("message.data22 ${message.data['_id']}");
+      }
+    });
   }
 
   @override
